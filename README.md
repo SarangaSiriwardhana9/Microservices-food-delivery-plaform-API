@@ -12,7 +12,7 @@ This project is a prototype of a food delivery platform built using microservice
 
 ## 🏗️ Architecture
 
-![bdc814ae-8979-49c4-ba0b-c866e54f595c](https://github.com/user-attachments/assets/62035c34-b6aa-483e-98c8-0e673defb2a8)
+<img src="https://github.com/user-attachments/assets/62035c34-b6aa-483e-98c8-0e673defb2a8/bdc814ae-8979-49c4-ba0b-c866e54f595c" width="300"/>
 
 
 The platform consists of four main microservices:
@@ -198,7 +198,7 @@ Import the Postman collection from the `postman` directory to test the endpoints
 
 ## 👥 Team Members
 
-- **Member 1** - Authentication Service  
-- **Member 2** - Restaurant Management Service  
-- **Member 3** - Menu Service  
-- **Member 4** - Order Service  
+- **Member 1** - Saranga Siriwardhana 
+- **Member 2** - Eshan Imesh
+- **Member 3** - Umesh Dewasinghe
+- **Member 4** - Kavindi fernando  
