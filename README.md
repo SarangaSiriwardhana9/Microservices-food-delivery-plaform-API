@@ -12,7 +12,10 @@ This project is a prototype of a food delivery platform built using microservice
 
 ## 🏗️ Architecture
 
-![image](https://github.com/user-attachments/assets/62035c34-b6aa-483e-98c8-0e673defb2a8/bdc814ae-8979-49c4-ba0b-c866e54f595c){ width=300px }
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/62035c34-b6aa-483e-98c8-0e673defb2a8/bdc814ae-8979-49c4-ba0b-c866e54f595c" style="width:300px;" />
+</p>
+
 
 
 The platform consists of four main microservices:
