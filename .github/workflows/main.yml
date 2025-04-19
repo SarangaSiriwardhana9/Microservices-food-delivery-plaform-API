@@ -1,0 +1,77 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install and test auth service
+        run: |
+          cd food-delivery-auth-service
+          npm install
+          npm test
+
+      - name: Install and test menu service
+        run: |
+          cd food-delivery-menu-service
+          npm install
+          npm test
+
+      - name: Install and test restaurant service
+        run: |
+          cd food-delivery-restaurant-service
+          npm install
+          npm test
+
+      - name: Install and test order service
+        run: |
+          cd food-delivery-order-service
+          npm install
+          npm test
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push auth service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./food-delivery-auth-service
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-auth-service:latest
+
+      - name: Build and push menu service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./food-delivery-menu-service
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-menu-service:latest
+
+      - name: Build and push restaurant service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./food-delivery-restaurant-service
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-restaurant-service:latest
+
+      - name: Build and push order service
+        uses: docker/build-push-action@v2
+        with:
+          context: ./food-delivery-order-service
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-order-service:latest
