@@ -1,0 +1,61 @@
+{
+    "family": "food-delivery-task",
+    "networkMode": "awsvpc",
+    "executionRoleArn": "arn:aws:iam::923159239235:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "food-delivery-auth-service",
+        "image": "docker.io/sarangadocker/food-delivery-auth-service:latest", 
+        "portMappings": [
+          {
+            "containerPort": 3001,
+            "hostPort": 3001,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      },
+      {
+        "name": "food-delivery-order-service",
+        "image": "docker.io/sarangadocker/food-delivery-order-service:latest", 
+        "portMappings": [
+          {
+            "containerPort": 3002,
+            "hostPort": 3002,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      },
+      {
+        "name": "food-delivery-menu-service",
+        "image": "docker.io/sarangadocker/food-delivery-menu-service:latest", 
+        "portMappings": [
+          {
+            "containerPort": 3003,
+            "hostPort": 3003,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      },
+      {
+        "name": "food-delivery-restaurant-service",
+        "image": "docker.io/sarangadocker/food-delivery-restaurant-service:latest", 
+        "portMappings": [
+          {
+            "containerPort": 3004,
+            "hostPort": 3004,
+            "protocol": "tcp"
+          }
+        ],
+        "essential": true
+      }
+    ],
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+  }
+  

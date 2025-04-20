@@ -1,0 +1,117 @@
+{
+    "family": "food-delivery-task",
+    "networkMode": "awsvpc",
+    "executionRoleArn": "arn:aws:iam::923159239235:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "food-delivery-auth-service",
+        "image": "docker.io/sarangadocker/food-delivery-auth-service:latest",
+        "portMappings": [
+          {
+            "containerPort": 5000,
+            "hostPort": 5000,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          { "name": "PORT", "value": "5000" },
+          { "name": "MONGO_URI", "value": "mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" },
+          { "name": "JWT_SECRET", "value": "your_jwt_secret_key" },
+          { "name": "JWT_EXPIRE", "value": "30d" }
+        ],
+        "essential": true,
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/food-delivery",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "auth"
+          }
+        }
+      },
+      {
+        "name": "food-delivery-menu-service",
+        "image": "docker.io/sarangadocker/food-delivery-menu-service:latest",
+        "portMappings": [
+          {
+            "containerPort": 5001,
+            "hostPort": 5001,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          { "name": "PORT", "value": "5001" },
+          { "name": "MONGO_URI", "value": "mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" },
+          { "name": "JWT_SECRET", "value": "your_jwt_secret_key" },
+          { "name": "AUTH_SERVICE_URL", "value": "http://localhost:5000/api/v1" }
+        ],
+        "essential": true,
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/food-delivery",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "menu"
+          }
+        }
+      },
+      {
+        "name": "food-delivery-restaurant-service",
+        "image": "docker.io/sarangadocker/food-delivery-restaurant-service:latest",
+        "portMappings": [
+          {
+            "containerPort": 5002,
+            "hostPort": 5002,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          { "name": "PORT", "value": "5002" },
+          { "name": "MONGO_URI", "value": "mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" },
+          { "name": "JWT_SECRET", "value": "123456" },
+          { "name": "AUTH_SERVICE_URL", "value": "http://localhost:5000/api/v1" }
+        ],
+        "essential": true,
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/food-delivery",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "restaurant"
+          }
+        }
+      },
+      {
+        "name": "food-delivery-order-service",
+        "image": "docker.io/sarangadocker/food-delivery-order-service:latest",
+        "portMappings": [
+          {
+            "containerPort": 5003,
+            "hostPort": 5003,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          { "name": "PORT", "value": "5003" },
+          { "name": "MONGO_URI", "value": "mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" },
+          { "name": "JWT_SECRET", "value": "123456" },
+          { "name": "AUTH_SERVICE_URL", "value": "http://localhost:5000/api/v1" },
+          { "name": "RESTAURANT_SERVICE_URL", "value": "http://localhost:5002/api/v1" },
+          { "name": "MENU_SERVICE_URL", "value": "http://localhost:5001/api/v1" },
+          { "name": "STRIPE_SECRET_KEY", "value": "sk_test_your_stripe_test_key" }
+        ],
+        "essential": true,
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/food-delivery",
+            "awslogs-region": "us-east-1",
+            "awslogs-stream-prefix": "order"
+          }
+        }
+      }
+    ],
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512"
+  }
