@@ -75,3 +75,30 @@ jobs:
           context: ./food-delivery-order-service
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-order-service:latest
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Update ECS service
+        run: |
+          aws ecs update-service --cluster food-delivery-cluster --service food-delivery-service --force-new-deployment
+          
+      - name: Wait for service to be stable
+        run: |
+          aws ecs wait services-stable --cluster food-delivery-cluster --services food-delivery-service
+          
+      - name: Print deployment info
+        run: |
+          echo "Deployment completed successfully!"
+          TASK_ARN=$(aws ecs list-tasks --cluster food-delivery-cluster --service-name food-delivery-service --query 'taskArns[0]' --output text)
+          if [ "$TASK_ARN" != "None" ]; then
+            echo "Task ARN: $TASK_ARN"
+            NETWORK_DETAILS=$(aws ecs describe-tasks --cluster food-delivery-cluster --tasks $TASK_ARN --query 'tasks[0].attachments[0].details' --output json)
+            echo "Network details: $NETWORK_DETAILS"
+          else
+            echo "No running tasks found."
+          fi
