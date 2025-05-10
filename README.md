@@ -168,7 +168,7 @@ This will build and start all microservices, creating a connected network.
 
 ## 🔒 Security Considerations
 
-This project implements several security measures:
+Thi project implements several security measures:
 
 - **Authentication & Authorization**: JWT-based auth with role-based access control  
 - **Data Protection**: Secure password hashing with bcrypt  
