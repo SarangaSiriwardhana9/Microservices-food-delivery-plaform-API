@@ -17,7 +17,7 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    // Create user
+    // Create user//
     const user = await User.create({
       name,
       email,
