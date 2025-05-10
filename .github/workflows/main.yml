@@ -85,11 +85,11 @@ jobs:
 
       - name: Update ECS service
         run: |
-          aws ecs update-service --cluster food-delivery-cluster --service food-delivery-service --force-new-deployment
+          aws ecs update-service --cluster food-delivery-cluster --service food-delivery-service-task-service-jn7pd8hx --force-new-deployment
           
       - name: Wait for service to be stable
         run: |
-          aws ecs wait services-stable --cluster food-delivery-cluster --services food-delivery-service
+          aws ecs wait services-stable --cluster food-delivery-cluster --services food-delivery-service-task-service-jn7pd8hx
           
       - name: Print deployment info
         run: |
