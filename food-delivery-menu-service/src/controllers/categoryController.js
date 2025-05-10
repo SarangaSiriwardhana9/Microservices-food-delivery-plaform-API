@@ -157,7 +157,7 @@ exports.updateCategory = async (req, res) => {
       });
     }
 
-    // Make sure user is the restaurant owner or admin
+    // check user is the restaurant owner or admin
     if (category.restaurantId.toString() !== req.user.id && req.user.role !== 'admin') {
       return res.status(401).json({
         success: false,
