@@ -33,7 +33,7 @@ exports.getOrders = async (req, res) => {
       query = query.select(fields);
     }
 
-    // Sort
+    // Sorting
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
