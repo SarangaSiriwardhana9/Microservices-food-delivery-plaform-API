@@ -168,7 +168,7 @@ This will build and start all microservices, creating a connected network.
 
 ## 🔒 Security Considerations
 
-This project implements several security measures:
+Thi project implements several security measures:
 
 - **Authentication & Authorization**: JWT-based auth with role-based access control  
 - **Data Protection**: Secure password hashing with bcrypt  
@@ -203,4 +203,4 @@ Import the Postman collection from the `postman` directory to test the endpoints
 - **Member 1** - Saranga Siriwardhana 
 - **Member 2** - Eshan Imesh
 - **Member 3** - Umesh Dewasinghe
-- **Member 4** - Kavindi fernando  
+- **Member 4** - Kavindi fernando
