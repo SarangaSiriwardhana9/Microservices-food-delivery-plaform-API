@@ -37,7 +37,7 @@ exports.register = async (req, res, next) => {
   }
 };
 
-// @desc    Login user
+// @desc    Login user///
 // @route   POST /api/v1/auth/login
 // @access  Public
 exports.login = async (req, res, next) => {
