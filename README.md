@@ -114,7 +114,7 @@ npm run dev
 ```
 
 4. Docker Setup:  
-Run all services using Docker Compose:
+Run all services using Docker Compose::
 
 ```bash
 docker-compose up
