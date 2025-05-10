@@ -1,0 +1,81 @@
+version: '3'
+
+services:
+  auth-service:
+    image: sarangadocker/food-delivery-auth-service:latest
+    build:
+      context: ./food-delivery-auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=123456
+      - JWT_EXPIRE=30d
+    networks:
+      - food-delivery-network
+    restart: unless-stopped
+
+  menu-service:
+    image: sarangadocker/food-delivery-menu-service:latest
+    build:
+      context: ./food-delivery-menu-service
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=123456
+      - AUTH_SERVICE_URL=http://auth-service:5000/api/v1
+    depends_on:
+      - auth-service
+    networks:
+      - food-delivery-network
+    restart: unless-stopped
+
+  restaurant-service:
+    image: sarangadocker/food-delivery-restaurant-service:latest
+    build:
+      context: ./food-delivery-restaurant-service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+    environment:
+      - PORT=5002
+      - MONGO_URI=mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=123456
+      - AUTH_SERVICE_URL=http://auth-service:5000/api/v1
+    depends_on:
+      - auth-service
+    networks:
+      - food-delivery-network
+    restart: unless-stopped
+
+  order-service:
+    image: sarangadocker/food-delivery-order-service:latest
+    build:
+      context: ./food-delivery-order-service
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5003"
+    environment:
+      - PORT=5003
+      - MONGO_URI=mongodb+srv://root:1234@cluster0.0yui9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=123456
+      - AUTH_SERVICE_URL=http://auth-service:5000/api/v1
+      - RESTAURANT_SERVICE_URL=http://restaurant-service:5002/api/v1
+      - MENU_SERVICE_URL=http://menu-service:5001/api/v1
+      - STRIPE_SECRET_KEY=sk_test_your_stripe_test_key
+    depends_on:
+      - auth-service
+      - restaurant-service
+      - menu-service
+    networks:
+      - food-delivery-network
+    restart: unless-stopped
+
+networks:
+  food-delivery-network:
+    driver: bridge

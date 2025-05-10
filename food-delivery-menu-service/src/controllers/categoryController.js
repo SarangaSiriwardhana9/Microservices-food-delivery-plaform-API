@@ -206,7 +206,7 @@ exports.deleteCategory = async (req, res) => {
       });
     }
 
-    // Delete associated menu items first (to maintain referential integrity)
+    // Delete all menu items associated with this categor
     await MenuItem.deleteMany({ category: req.params.id });
     
     // Now delete the category
