@@ -28,7 +28,7 @@ app.use('/api/v1/payments/webhook', express.raw({ type: 'application/json' }));
 app.use(helmet());
 
 // Enable CORS
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 // Rate limiting
 const limiter = rateLimit({

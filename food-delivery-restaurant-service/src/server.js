@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(helmet());
 
 // Enable CORS
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 // Rate limiting
 const limiter = rateLimit({
