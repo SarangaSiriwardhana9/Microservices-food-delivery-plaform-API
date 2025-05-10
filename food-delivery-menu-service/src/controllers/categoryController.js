@@ -117,7 +117,7 @@ exports.getCategory = async (req, res) => {
 // @access  Private (Restaurant owners and admins)
 exports.createCategory = async (req, res) => {
   try {
-    // Check if we have a user ID from token verification
+    // Check userId
     if (req.userId) {
       req.body.restaurantId = req.userId;
     } else if (req.user && req.user.id) {
