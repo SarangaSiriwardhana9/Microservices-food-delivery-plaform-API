@@ -9,7 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 // Load env vars
 dotenv.config();
 
-// Connect to database
+// Connect to the database
 connectDB();
 
 // Route files
@@ -52,7 +52,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5003;
 
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Order Service running on port ${PORT}`);
+  console.log(`Order Service is running on port ${PORT}`);
 });
 
 // Handle unhandled promise rejections
