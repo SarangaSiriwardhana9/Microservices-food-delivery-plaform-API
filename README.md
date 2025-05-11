@@ -193,7 +193,7 @@ The platform is deployed on AWS using containerized services:
 
 ## 🧪 Testing
 
-Each service includes API tests that can be run using Postman.  
+Each service includes API tests that can be run using Postman.
 Import the Postman collection from the `postman` directory to test the endpoints.
 
 ---
