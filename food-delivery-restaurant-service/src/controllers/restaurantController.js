@@ -198,7 +198,7 @@ exports.updateRestaurant = async (req, res) => {
   }
 };
 
-// @desc    Delete restaurant
+// @desc    Delete 
 // @route   DELETE /api/v1/restaurants/:id
 // @access  Private (only restaurant owner and admin)
 exports.deleteRestaurant = async (req, res) => {
