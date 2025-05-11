@@ -1,96 +1,96 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+#     steps:
+#       - uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v2
+#         with:
+#           node-version: '16'
 
-      - name: Install auth service dependencies
-        run: |
-          cd food-delivery-auth-service
-          npm install
-          echo "No tests specified yet" # Skip testing
+#       - name: Install auth service dependencies
+#         run: |
+#           cd food-delivery-auth-service
+#           npm install
+#           echo "No tests specified yet" # Skip testing
 
-      - name: Install menu service dependencies
-        run: |
-          cd food-delivery-menu-service
-          npm install
-          echo "No tests specified yet" # Skip testing
+#       - name: Install menu service dependencies
+#         run: |
+#           cd food-delivery-menu-service
+#           npm install
+#           echo "No tests specified yet" # Skip testing
 
-      - name: Install restaurant service dependencies
-        run: |
-          cd food-delivery-restaurant-service
-          npm install
-          echo "No tests specified yet" # Skip testing
+#       - name: Install restaurant service dependencies
+#         run: |
+#           cd food-delivery-restaurant-service
+#           npm install
+#           echo "No tests specified yet" # Skip testing
 
-      - name: Install order service dependencies
-        run: |
-          cd food-delivery-order-service
-          npm install
-          echo "No tests specified yet" # Skip testing
+#       - name: Install order service dependencies
+#         run: |
+#           cd food-delivery-order-service
+#           npm install
+#           echo "No tests specified yet" # Skip testing
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+#       - name: Login to DockerHub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKER_USERNAME }}
+#           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push auth service
-        uses: docker/build-push-action@v2
-        with:
-          context: ./food-delivery-auth-service
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-auth-service:latest
+#       - name: Build and push auth service
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: ./food-delivery-auth-service
+#           push: true
+#           tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-auth-service:latest
 
-      - name: Build and push menu service
-        uses: docker/build-push-action@v2
-        with:
-          context: ./food-delivery-menu-service
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-menu-service:latest
+#       - name: Build and push menu service
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: ./food-delivery-menu-service
+#           push: true
+#           tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-menu-service:latest
 
-      - name: Build and push restaurant service
-        uses: docker/build-push-action@v2
-        with:
-          context: ./food-delivery-restaurant-service
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-restaurant-service:latest
+#       - name: Build and push restaurant service
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: ./food-delivery-restaurant-service
+#           push: true
+#           tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-restaurant-service:latest
 
-      - name: Build and push order service
-        uses: docker/build-push-action@v2
-        with:
-          context: ./food-delivery-order-service
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-order-service:latest
+#       - name: Build and push order service
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: ./food-delivery-order-service
+#           push: true
+#           tags: ${{ secrets.DOCKER_USERNAME }}/food-delivery-order-service:latest
           
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-1
 
-      - name: Update ECS service
-        run: |
-          aws ecs update-service --cluster food-delivery-cluster --service food-delivery-service-task-service-jn7pd8hx --force-new-deployment
+#       - name: Update ECS service
+#         run: |
+#           aws ecs update-service --cluster food-delivery-cluster --service food-delivery-service-task-service-jn7pd8hx --force-new-deployment
           
-      - name: Wait for service to be stable
-        run: |
-          aws ecs wait services-stable --cluster food-delivery-cluster --services food-delivery-service-task-service-jn7pd8hx
+#       - name: Wait for service to be stable
+#         run: |
+#           aws ecs wait services-stable --cluster food-delivery-cluster --services food-delivery-service-task-service-jn7pd8hx
           
-      - name: Print deployment info
-        run: |
-          echo "Deployment completed successfully!"
+#       - name: Print deployment info
+#         run: |
+#           echo "Deployment completed successfully!"
